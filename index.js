@@ -9,11 +9,12 @@ io.on("connection", (socket) => {
     !onlineUsers.some((user) => user.userId === userId) &&
       onlineUsers.push({ userId, socketId: socket.id });
 
+      console.log("online users", onlineUsers)
+
     io.emit("getOnlineUsers", onlineUsers);
   });
 
   socket.on("sendMessage", (message) => {
-    console.log("message", message);
     const user = onlineUsers.find(
       (user) => user.userId === message.recipientId
     );
