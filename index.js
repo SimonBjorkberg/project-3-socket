@@ -9,6 +9,8 @@ io.on("connection", (socket) => {
     !onlineUsers.some((user) => user.userId === userId) &&
       onlineUsers.push({ userId, socketId: socket.id });
 
+      console.log("user connected", socket.id)
+
       console.log("online users", onlineUsers)
 
     io.emit("getOnlineUsers", onlineUsers);
@@ -25,6 +27,8 @@ io.on("connection", (socket) => {
       chatId: message.chatId,
     };
 
+    console.log(user, response)
+
     if (user) {
       io.to(user.socketId).emit("getMessage", response);
     }
@@ -32,6 +36,8 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
+
+    console.log(onlineUsers)
 
     io.emit("getOnlineUsers", onlineUsers);
   });
